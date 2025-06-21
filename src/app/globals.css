@@ -1,0 +1,90 @@
+@font-face {
+  font-family: "PixelFont";
+  src: url("/fonts/PixelifySans-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-family: "PixelFont", monospace;
+  --h1-font-size: 2.25rem;
+  --h2-font-size: 1.5rem;
+  --h3-font-size: 1.25rem;
+  --normal-font-size: 1rem;
+  --small-font-size: 0.875rem;
+  --smaller-font-size: 0.813rem;
+
+  /* FONT WEIGHT */
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background: linear-gradient(#b388eb, #f7aef8);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.landing,
+.game {
+  width: 90%;
+  max-width: 420px;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 0 20px #f7aef8;
+}
+
+.button {
+  background: #f7aef8;
+  color: #5e548e;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  background: #e0b0ff;
+}
+
+.card-row {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.card-img {
+  width: 100px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.win {
+  color: #90ee90;
+  font-size: 1.2rem;
+}
+.lose {
+  color: #ff6b6b;
+  font-size: 1.2rem;
+}
+.back-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
