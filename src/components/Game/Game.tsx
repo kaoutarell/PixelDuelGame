@@ -21,7 +21,7 @@ export default function Game({ onBack }: { onBack: () => void }) {
 
   //draw a card
   const drawCard = () => {
-    const audio = new Audio("/sound/click.mp3");
+    const audio = new Audio("sounds/retro-notif.mp3");
     audio.play();
 
     const card = cards[Math.floor(Math.random() * cards.length)]; // draw a random card and assign it to the player to
