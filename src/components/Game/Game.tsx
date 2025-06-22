@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Board } from "../Board/Board";
+import { useEffect, useState, useRef } from "react";
+import Board from "../Board/Board";
 import cards from "./Card";
 import Alert from "../Alert/Alert";
 
@@ -17,6 +17,9 @@ export default function Game({
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [allCorrect, setAllCorrect] = useState(true);
   const [alertMessage, setAlertMessage] = useState("");
+  const boardRef = useRef<any>(null);
+  //fix the game over issue ==> the UI don't ACTUALLY end the party .. it just shows the alert
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,21 +47,35 @@ export default function Game({
   };
 
   const endGame = () => {
-    const totalScore =
-      score + (deck.find((c) => c.effect === "final-score") ? 1 : 0);
+    const hasUsedFinalScoreCard = !deck.find((c) => c.effect === "final-score");
+    const totalScore = score + (hasUsedFinalScoreCard ? 1 : 0);
     const win = totalScore >= 10;
     const msg = win ? "🎉 You won the game!" : "💀 You lost the game.";
-
-    // Grant badge ONLY if user answered all correctly -- BUG
+    if (!win) {
+      //loss sound effect
+      new Audio("sounds/lost.mp3").play();
+    }
     if (allCorrect && score === 36) setBadgeEarned(true);
-
     setTimeout(() => {
       setAlertMessage(
         `${msg}\n Final Score: ${totalScore}${
           allCorrect && score === 36 ? "\n🏅 Badge Earned!" : ""
         }`
       );
+      setGameOver(true); // trigger navigation after alert closes !!!
     }, 100);
+  };
+
+  const useHint = () => {
+    boardRef.current?.triggerHint();
+  };
+
+  const useReveal = () => {
+    boardRef.current?.triggerReveal();
+  };
+
+  const useSkip = () => {
+    boardRef.current?.triggerSkip();
   };
 
   return (
@@ -86,19 +103,34 @@ export default function Game({
             src={card.img}
             alt={card.name}
             className="card-img pixel-border"
+            onClick={() => {
+              if (card.effect === "reveal") useReveal();
+              else if (card.effect === "skip") useSkip();
+              else if (card.effect === "hint") useHint();
+              else console.warn("No handler for card effect:", card.effect);
+            }}
           />
         ))}
       </div>
       <Board
+        ref={boardRef}
         onCorrect={handleCorrectAnswer}
         onWrong={handleWrongAnswer}
         deck={deck}
         removeCard={removeCard}
+        setAlertMessage={setAlertMessage}
       />
       {alertMessage && (
-        <Alert message={alertMessage} onClose={() => setAlertMessage("")} />
+        <Alert
+          message={alertMessage}
+          onClose={() => {
+            setAlertMessage("");
+            if (gameOver) {
+              onBack(); // Go back to landing page !!!
+            }
+          }}
+        />
       )}
-
       {badgeEarned && (
         <img
           src="/assets/badge.png"

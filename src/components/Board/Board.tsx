@@ -1,16 +1,22 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import Questions from "./Questions";
 import cards from "../Game/Card";
 type Card = (typeof cards)[number];
 
 function shuffleArray<T>(arr: T[]): T[] {
-  //T for any type | Generic type
   return arr.sort(() => Math.random() - 0.5);
 }
 
-export const Board = ({ onCorrect, onWrong, deck, removeCard }: any) => {
+const Board = forwardRef(function Board(
+  { onCorrect, onWrong, deck, removeCard, setAlertMessage }: any,
+  ref
+) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
@@ -25,46 +31,49 @@ export const Board = ({ onCorrect, onWrong, deck, removeCard }: any) => {
     setShowQuestion(true);
   }, [currentIndex]);
 
+  useImperativeHandle(ref, () => ({
+    triggerHint: () => useHint(),
+    triggerReveal: () => useReveal(),
+    triggerSkip: () => useSkip(),
+  }));
+
   const next = () => {
     setUsedHint(false);
     setCurrentIndex((i) => i + 1);
   };
 
   const useHint = () => {
-    const sound = new Audio("sounds/won-boost.mp3");
-    sound.play();
-    removeCard("hint"); //there's no hint card .. --> moon card?
+    new Audio("sounds/won-boost.mp3").play();
+    removeCard("hint");
     const wrongOptions = shuffledOptions.filter(
       (opt) => opt !== current.answer
     );
     const toDisable = wrongOptions[0];
     setShuffledOptions((opts) => opts.map((o) => (o === toDisable ? "" : o)));
     setUsedHint(true);
+    setAlertMessage(`🌙 One wrong option was removed!`);
   };
 
   const useReveal = () => {
-    const sound = new Audio("/sounds/retro-notif.mp3");
-    sound.play();
-    removeCard("reveal"); //heart card
-    alert(`Answer: ${current.answer}`);
+    new Audio("/sounds/retro-notif.mp3").play();
+    removeCard("reveal");
+    setAlertMessage(`💡 The answer was: ${current.answer}`);
     next();
   };
 
   const useSkip = () => {
-    const sound = new Audio("/sounds/fire.mp3");
-    sound.play();
-    removeCard("skip"); //fire card
+    new Audio("/sounds/fire.mp3").play();
+    removeCard("skip");
+    setAlertMessage(`🔥 You skipped the question!`);
     next();
   };
 
   const answerQuestion = (opt: string) => {
     if (opt === current.answer) {
-      const sound = new Audio("/sounds/won-diamond.mp3");
-      sound.play();
+      new Audio("/sounds/won-diamond.mp3").play();
       onCorrect();
     } else {
-      const sound = new Audio("/sounds/lost.mp3");
-      sound.play();
+      new Audio("/sounds/lost.mp3").play();
       onWrong();
     }
     next();
@@ -111,4 +120,6 @@ export const Board = ({ onCorrect, onWrong, deck, removeCard }: any) => {
       )}
     </div>
   );
-};
+});
+
+export default Board;
