@@ -4,6 +4,24 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 95%; /* responsive width */
+  max-width: 800px; /* increased for wider screens */
+  margin: 0 auto; /* center horizontally */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .landing-wrapper {
+    max-width: 100%; /* allow full width on tablets/phones */
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-wrapper {
+    gap: 0.5rem; /* tighter spacing on small phones */
+  }
 }
 
 .rules-button-container {
