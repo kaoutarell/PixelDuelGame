@@ -9,6 +9,8 @@
 
 **Pixel Duel** is a retro-inspired digital board game built using **React (Next.js)**. The user is prompted to answer pixel-art-themed questions, using card-based bonuses to strategically enhance gameplay.
 
+> You can access the game 👉🏻 [Here](https://pixel-duel-game.vercel.app/)
+
 ---
 
 ## 🛠️ Tech Stack
