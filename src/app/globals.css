@@ -53,10 +53,14 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   margin: 0.5rem 0;
   font-family: var(--font-family), monospace;
+}
+
+h3 {
+  margin: 0.5rem 0;
+  font-family: "VT323", monospace;
 }
 
 .landing,
@@ -88,7 +92,7 @@ h3 {
 .button {
   background: var(--pink);
   color: var(--deep-purple);
-  font-family: var(--font-family);
+  font-family: "VT323";
   font-size: 1rem;
   padding: 0.6rem 1.2rem;
   border: none;
@@ -252,7 +256,7 @@ h3 {
   display: block;
   margin: 0.4rem auto;
   padding: 0.5rem 1rem;
-  font-family: var(--font-family);
+  font-family: "VT323";
   font-size: 1rem;
   border: 2px solid white;
   background: var(--light-pink);
@@ -279,7 +283,7 @@ h3 {
   color: #333;
   border: 2px solid var(--pink);
   border-radius: 6px;
-  font-family: var(--font-family);
+  font-family: "VT323";
   transition: var(--transition);
 }
 .tools button:hover {

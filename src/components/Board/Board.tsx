@@ -14,7 +14,14 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 const Board = forwardRef(function Board(
-  { onCorrect, onWrong, deck, removeCard, setAlertMessage }: any,
+  {
+    onCorrect,
+    onWrong,
+    deck,
+    removeCard,
+    setAlertMessage,
+    onAllQuestionsDone,
+  }: any,
   ref
 ) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,10 +30,23 @@ const Board = forwardRef(function Board(
   const shuffledQuestions = useState(() =>
     shuffleArray(Questions).slice(0, 36)
   )[0];
-  const current = shuffledQuestions[currentIndex];
-  const [shuffledOptions, setShuffledOptions] = useState(current.options);
+  const current = shuffledQuestions[currentIndex] ?? null;
+
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>(
+    current?.options || []
+  );
 
   useEffect(() => {
+    if (!current) {
+      // Positive end of the game (aka: finished all the tiles)
+      setShowQuestion(false);
+      setShuffledOptions([]); // clear options safely
+      setTimeout(() => {
+        setAlertMessage("✅ All questions answered!");
+      }, 200); // --- slight delay to avoid race conditions
+      return;
+    }
+
     setShuffledOptions(current.options.sort(() => 0.5 - Math.random()));
     setShowQuestion(true);
   }, [currentIndex]);
@@ -92,7 +112,7 @@ const Board = forwardRef(function Board(
           />
         ))}
       </div>
-      {showQuestion && (
+      {showQuestion && current && (
         <div className="question-popup">
           <h3>{current.question}</h3>
           <div className="options">
@@ -103,17 +123,6 @@ const Board = forwardRef(function Board(
                     {opt}
                   </button>
                 )
-            )}
-          </div>
-          <div className="tools">
-            {deck.find((c: Card) => c.effect === "hint") && !usedHint && (
-              <button onClick={useHint}>Use Moon</button>
-            )}
-            {deck.find((c: Card) => c.effect === "reveal") && (
-              <button onClick={useReveal}>Use Heart</button>
-            )}
-            {deck.find((c: Card) => c.effect === "skip") && (
-              <button onClick={useSkip}>Use Fire</button>
             )}
           </div>
         </div>

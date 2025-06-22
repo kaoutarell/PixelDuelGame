@@ -14,6 +14,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>{children}</body>
+      {/* Just a BG animation shapes addition */}
+      <div className="pixel-bg">
+        <div className="pixel-shape moon"></div>
+        <div className="pixel-shape diamond"></div>
+        <div className="pixel-shape star"></div>
+        <div className="pixel-shape diamond"></div>
+        <div className="pixel-shape moon"></div>
+        <div className="pixel-shape star"></div>
+        <div className="pixel-shape diamond"></div>
+        <div className="pixel-shape moon"></div>
+        <div className="pixel-shape star"></div>
+        <div className="pixel-shape moon"></div>
+        <div className="pixel-shape diamond"></div>
+        <div className="pixel-shape star"></div>
+      </div>
     </html>
   );
 }

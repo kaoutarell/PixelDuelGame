@@ -20,6 +20,7 @@ export default function Game({
   const boardRef = useRef<any>(null);
   //fix the game over issue ==> the UI don't ACTUALLY end the party .. it just shows the alert
   const [gameOver, setGameOver] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -47,6 +48,9 @@ export default function Game({
   };
 
   const endGame = () => {
+    if (hasEnded) return; // prevent double execution
+    setHasEnded(true);
+
     const hasUsedFinalScoreCard = !deck.find((c) => c.effect === "final-score");
     const totalScore = score + (hasUsedFinalScoreCard ? 1 : 0);
     const win = totalScore >= 10;
@@ -119,7 +123,9 @@ export default function Game({
         deck={deck}
         removeCard={removeCard}
         setAlertMessage={setAlertMessage}
+        onAllQuestionsDone={endGame} // this line detects if all the questions have been answered (fix the undefined error)
       />
+
       {alertMessage && (
         <Alert
           message={alertMessage}

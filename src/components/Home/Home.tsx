@@ -54,22 +54,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Just a BG animation shapes addition */}
-      <div className="pixel-bg">
-        <div className="pixel-shape moon"></div>
-        <div className="pixel-shape diamond"></div>
-        <div className="pixel-shape star"></div>
-        <div className="pixel-shape diamond"></div>
-        <div className="pixel-shape moon"></div>
-        <div className="pixel-shape star"></div>
-        <div className="pixel-shape diamond"></div>
-        <div className="pixel-shape moon"></div>
-        <div className="pixel-shape star"></div>
-        <div className="pixel-shape moon"></div>
-        <div className="pixel-shape diamond"></div>
-        <div className="pixel-shape star"></div>
-      </div>
-
       {showRules && <Rules onClose={() => setShowRules(false)} />}
       {alertMessage && (
         <Alert message={alertMessage} onClose={() => setAlertMessage("")} />
