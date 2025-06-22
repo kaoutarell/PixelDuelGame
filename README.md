@@ -48,7 +48,7 @@ Cards can be used by clicking on them. Each card can **only** be used once.
 
 | Card Name | Icon | Effect                         |
 | --------- | ---- | ------------------------------ |
-| Heart     | 💡   | Reveals the correct answer     |
+| Heart     | ❤️   | Reveals the correct answer     |
 | Fire      | 🔥   | Skips the current question     |
 | Moon      | 🌙   | Removes one wrong answer       |
 | Diamond   | 💎   | Adds +1 to final score if used |
