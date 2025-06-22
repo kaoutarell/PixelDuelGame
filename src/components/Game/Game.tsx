@@ -1,79 +1,102 @@
 "use client";
+import { useEffect, useState } from "react";
+import { Board } from "../Board/Board";
+import cards from "./Card";
 
-import { img } from "framer-motion/client";
-import React, { useState } from "react";
+export default function Game({
+  onBack,
+  playerName,
+}: {
+  onBack: () => void;
+  playerName: string;
+}) {
+  const [deck, setDeck] = useState(cards);
+  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(20 * 60);
+  const [badgeEarned, setBadgeEarned] = useState(false);
+  const [allCorrect, setAllCorrect] = useState(true);
 
-const cards = [
-  { name: "heart", img: "/assets/cards/heart.png", effect: "life" },
-  { name: "fire", img: "/assets/cards/fire.png", effect: "boost" },
-  { name: "diamond", img: "/assets/cards/diamond.png", effect: "point" },
-  { name: "moon", img: "/assets/cards/moon.png", effect: "retry" },
-];
-export default function Game({ onBack }: { onBack: () => void }) {
-  const [playerCard, setPlayerCard] = useState<{
-    name: string;
-    img: string;
-    effect: string;
-  } | null>(null); // either null or a drawn card
-  const [score, setScore] = useState(0); // default = no score
-  const [lives, setLives] = useState(3); //default = 3 lives
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          endGame();
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  //draw a card
-  const drawCard = () => {
-    const audio = new Audio("sounds/retro-notif.mp3");
-    audio.play();
-
-    const card = cards[Math.floor(Math.random() * cards.length)]; // draw a random card and assign it to the player to
-    setPlayerCard(card);
-
-    switch (card.effect) {
-      case "life":
-        setLives((l) => l + 1);
-        setMessage("💖 Extra Life");
-        break;
-      case "boost":
-        setScore((s) => s + 5);
-        setMessage("🔥 +5");
-        break;
-      case "point":
-        setScore((s) => s + 1);
-        setMessage("💎 +1");
-        break;
-      case "retry":
-        setLives((l) => l);
-        setMessage("🌙 Retry granted!");
-        break;
-    }
+  const removeCard = (effect: string) => {
+    setDeck((prev) => prev.filter((c) => c.effect !== effect));
   };
 
-  const loseLife = () => {
-    setLives((l) => l - 1);
-    setMessage("💔 You skipped a turn and lost a life!");
+  const handleCorrectAnswer = () => {
+    setScore((s) => s + 1);
+  };
+
+  const handleWrongAnswer = () => {
+    setAllCorrect(false);
+  };
+
+  const endGame = () => {
+    const totalScore =
+      score + (deck.find((c) => c.effect === "final-score") ? 1 : 0);
+    const win = totalScore >= 10;
+    const msg = win ? "🎉 You won the game!" : "💀 You lost the game.";
+    if (allCorrect) setBadgeEarned(true);
+    setTimeout(() => {
+      alert(
+        `${msg}\nFinal Score: ${totalScore}${
+          allCorrect ? "\n🏅 Badge Earned!" : ""
+        }`
+      );
+    }, 100);
   };
 
   return (
-    <div className="game">
+    <div className="game board-theme">
       <button className="back-button" onClick={onBack}>
-        Back
+        ← Back
       </button>
       <h1>Pixel Duel</h1>
-      <div className="card-row">
-        {playerCard && (
-          <img
-            src={playerCard.img}
-            alt={playerCard.name}
-            className="card-img"
-          />
-        )}
+      <div className="top-bar">
+        <div className="player-name">
+          {playerName} 💎 {score}
+        </div>
+        <div className="timer">
+          ⏱️ {Math.floor(timeLeft / 60)}:{("0" + (timeLeft % 60)).slice(-2)}
+        </div>
+        <button className="button finish-button" onClick={endGame}>
+          Finish
+        </button>
       </div>
-      <button className="button" onClick={drawCard}>
-        Draw Card
-      </button>
-      <p>{message}</p>
-      <p>Score : {lives}</p>
-      {score >= 10 && <p className="win">YEEEEEY!</p>}
-      {score >= 0 && <p className="lose">Game Over</p>}
+      {timeLeft <= 120 && <div className="alert">⏳ Only 2 minutes left!</div>}
+      <div className="card-deck">
+        {deck.map((card, i) => (
+          <img
+            key={i}
+            src={card.img}
+            alt={card.name}
+            className="card-img pixel-border"
+          />
+        ))}
+      </div>
+      <Board
+        onCorrect={handleCorrectAnswer}
+        onWrong={handleWrongAnswer}
+        deck={deck}
+        removeCard={removeCard}
+      />
+      {badgeEarned && (
+        <img
+          src="/assets/badge.png"
+          alt="Badge"
+          className="badge animate-badge"
+        />
+      )}
     </div>
   );
 }
