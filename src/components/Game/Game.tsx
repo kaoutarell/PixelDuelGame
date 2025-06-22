@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Board } from "../Board/Board";
 import cards from "./Card";
+import Alert from "../Alert/Alert";
 
 export default function Game({
   onBack,
@@ -15,6 +16,7 @@ export default function Game({
   const [timeLeft, setTimeLeft] = useState(20 * 60);
   const [badgeEarned, setBadgeEarned] = useState(false);
   const [allCorrect, setAllCorrect] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,11 +48,14 @@ export default function Game({
       score + (deck.find((c) => c.effect === "final-score") ? 1 : 0);
     const win = totalScore >= 10;
     const msg = win ? "🎉 You won the game!" : "💀 You lost the game.";
-    if (allCorrect) setBadgeEarned(true);
+
+    // Grant badge ONLY if user answered all correctly -- BUG
+    if (allCorrect && score === 36) setBadgeEarned(true);
+
     setTimeout(() => {
-      alert(
-        `${msg}\nFinal Score: ${totalScore}${
-          allCorrect ? "\n🏅 Badge Earned!" : ""
+      setAlertMessage(
+        `${msg}\n Final Score: ${totalScore}${
+          allCorrect && score === 36 ? "\n🏅 Badge Earned!" : ""
         }`
       );
     }, 100);
@@ -90,6 +95,10 @@ export default function Game({
         deck={deck}
         removeCard={removeCard}
       />
+      {alertMessage && (
+        <Alert message={alertMessage} onClose={() => setAlertMessage("")} />
+      )}
+
       {badgeEarned && (
         <img
           src="/assets/badge.png"
