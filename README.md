@@ -94,7 +94,7 @@ Cards can be used by clicking on them. Each card can **only** be used once.
 ## How to Run Locally ?
 
 ```
-git clone https://github.com/your-username/pixel-duel.git
+git clone https://github.com/kaoutarell/pixel-duel-game
 cd pixel-duel
 npm install
 npm run dev
