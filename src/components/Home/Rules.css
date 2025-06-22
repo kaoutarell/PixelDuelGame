@@ -1,0 +1,69 @@
+/* Ensures the button is OUTSIDE the landing box */
+.landing-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rules-button-container {
+  margin-top: 1rem;
+}
+
+.rules-button {
+  background: var(--purple);
+  color: white;
+  font-weight: bold;
+}
+
+.rules-button:hover {
+  background: var(--light-purple);
+  color: var(--deep-purple);
+}
+
+/* RULES MODAL THEME MATCHING APP */
+.rules-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.rules-modal {
+  background: var(--light-pink);
+  color: var(--deep-purple);
+  padding: 2rem;
+  width: 90%;
+  max-width: 480px;
+  animation: fadeIn 0.4s ease-in-out;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 0 20px white;
+}
+
+.rules-modal h2 {
+  margin-bottom: 1rem;
+  font-family: var(--font-family);
+}
+
+.rules-modal ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 1.1rem;
+}
+
+.rules-modal ul li {
+  margin-bottom: 0.7rem;
+}
+
+.rules-modal ul ul {
+  padding-left: 1.5rem;
+  font-size: 0.95rem;
+}
