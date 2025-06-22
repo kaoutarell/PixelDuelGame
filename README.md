@@ -34,7 +34,7 @@ Answer 36 questions correctly within the 20-minute time limit. Use bonus cards w
 3. **Score Points:** Correct answers earn points. Total possible score: 36 (+1 bonus if "Final Score" card is used).
 4. **Use Cards:**
    - 🔥 Fire → Skip a question
-   - 💡 Heart → Reveal the correct answer
+   - ❤️ Heart → Reveal the correct answer
    - 🌙 Moon → Remove one wrong answer
    - 💎 Diamond → Adds +1 bonus to your final score _(if used before ending)_
 5. **Finish the Game:** Either let the timer run out or click **Finish** to end early.
