@@ -106,6 +106,10 @@ npm run dev
 
 **All rights reserved ©**
 
+
+<hr/>
+<div align="center"> Made with 💜 by the butterfly dev for learning purposes </div>
+
 This project is the intellectual property of [Your Name].
 You may not copy, redistribute, modify, or use any part of this code, assets, or game mechanics without explicit written permission.
 
