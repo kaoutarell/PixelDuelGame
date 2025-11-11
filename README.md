@@ -110,7 +110,6 @@ npm run dev
 <hr/>
 <div align="center"> Made with 💜 by the butterfly dev for learning purposes </div>
 
-This project is the intellectual property of [Your Name].
-You may not copy, redistribute, modify, or use any part of this code, assets, or game mechanics without explicit written permission.
+>This project is the intellectual property of Kaoutar El Azzab. You may not copy, redistribute, modify, or use any part of this code, assets, or game mechanics without explicit written permission.
 
-This repository is provided for personal archival and demonstration purposes only.
+>This repository is provided for personal archival and demonstration purposes only.
